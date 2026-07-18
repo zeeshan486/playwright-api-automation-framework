@@ -56,6 +56,19 @@ export const invalidUsers = {
 
     },
 
-    emptyBody: {}
+    emptyBody: {},
+
+        duplicateEmail: {
+
+        name: "John",
+
+        email: "abc@yopmail.com",
+
+        gender: "male",
+
+        status: "active"
+
+    },
+
 
 };

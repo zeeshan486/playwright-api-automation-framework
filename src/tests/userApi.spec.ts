@@ -1,4 +1,3 @@
-import { UserApi } from "../api/UserApi";
 import { UserFactory } from "../factories/UserFactory";
 import { expect, test } from "../fixtures/apiFixture";
 import { User } from "../models/User";
