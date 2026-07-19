@@ -15,7 +15,7 @@ export default defineConfig({
 
     testDir: "./src/tests",
 
-    fullyParallel: true,
+    fullyParallel: false,
 
     reporter: [
         [
@@ -26,11 +26,11 @@ export default defineConfig({
             }
         ]
     ],
-
+    workers:1,
     use: {
 
         baseURL: "https://gorest.in/public/v2/"
-
+        
     }
 
 });

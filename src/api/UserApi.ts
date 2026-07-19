@@ -1,14 +1,13 @@
-import { APIRequest, APIRequestContext, APIResponse } from "@playwright/test";
+import { APIRequestContext, APIResponse } from "@playwright/test";
 import { BaseApi } from "./BaseApi";
 import { User } from "../models/User";
-import { api } from "../constants/api";
 export class UserApi extends BaseApi {
   constructor(request: APIRequestContext) {
     super(request);
   }
 
-  async getAllUsers(): Promise<APIResponse> {
-    const response = await this.get("users");
+  async getAllUsers(params?: Record<string, string | number>): Promise<APIResponse> {
+    const response = await this.get("users",params);
     return response;
   }
 

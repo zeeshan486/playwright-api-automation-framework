@@ -1,5 +1,6 @@
 import { APIRequestContext, APIResponse } from "@playwright/test";
 import { api } from "../constants/api";
+import { ApiLogger } from "../utils/ApiLogger";
 
 export abstract class BaseApi {
 
@@ -11,27 +12,39 @@ export abstract class BaseApi {
 
     protected get(
         endpoint: string,
+         params?: Record<string, string | number>,
         headers?: Record<string, string>
     ): Promise<APIResponse> {
 
         return this.request.get(endpoint, {
+            params,
             headers
         });
 
     }
 
-    protected post(
-        endpoint: string,
-        data: unknown,
-        headers?: Record<string, string>
-    ): Promise<APIResponse> {
+protected async post(
+    endpoint: string,
+    data: unknown,
+    headers?: Record<string, string>
+): Promise<APIResponse> {
 
-        return this.request.post(endpoint, {
-            data,
-            headers
-        });
+    await ApiLogger.logRequest(
+        "POST",
+        endpoint,
+        headers,
+        data
+    );
 
-    }
+    const response = await this.request.post(endpoint, {
+        data,
+        headers
+    });
+
+    await ApiLogger.logResponse(response);
+
+    return response;
+}
 
     protected put(
         endpoint: string,

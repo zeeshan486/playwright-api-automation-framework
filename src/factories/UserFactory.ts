@@ -7,7 +7,7 @@ export class UserFactory {
         return {
             name: faker.person.fullName(),
 
-            email: faker.internet.email(),
+            email: faker.internet.email().toLowerCase(),
 
             gender: "male",
 

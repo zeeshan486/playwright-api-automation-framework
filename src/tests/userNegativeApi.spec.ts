@@ -37,8 +37,6 @@ test("TC-07 User With Missing Email", async ({ request }) => {
 
   const body = await response.json();
 
-  console.log(body);
-
   expect(Array.isArray(body)).toBe(true);
 
   expect(body).toHaveLength(1);
@@ -58,8 +56,6 @@ test("TC-08 User With Invalid Email", async ({ request }) => {
 
   const body = await response.json();
 
-  console.log(body);
-
   expect(Array.isArray(body)).toBe(true);
 
   expect(body).toHaveLength(1);
@@ -68,33 +64,24 @@ test("TC-08 User With Invalid Email", async ({ request }) => {
 
   expect(body[0].message).toBe("is invalid");
 });
+
 test("TC-09 User With duplicate Email", async ({ request }) => {
-  const response = await ApiRequestHelper.post(
+  const apiResponse = await ApiRequestHelper.post(
     request,
     "users",
     UserFactory.createUser(),
   );
 
-  expect(response.status()).toBe(201);
+  expect(apiResponse.status()).toBe(201);
 
-  const body = await response.json();
-
-  console.log(body.email);
-
-  const duplicatEmailUser = {
-    ...body,
-    email: body.email,
-  };
+  const responseBody = await apiResponse.json();
 
   const duplicateUserResponse = await ApiRequestHelper.post(
     request,
     "users",
-    duplicatEmailUser,
+    responseBody,
   );
-
   const duplicateEmailResponseBody = await duplicateUserResponse.json();
-
-  console.log(duplicateEmailResponseBody);
   expect(duplicateEmailResponseBody).toHaveLength(1);
   expect(Array.isArray(duplicateEmailResponseBody)).toBe(true);
   expect(duplicateUserResponse.status()).toBe(422);
@@ -112,8 +99,6 @@ test("TC-10 User With Invalid Gender", async ({ request }) => {
   expect(response.status()).toBe(422);
 
   const body = await response.json();
-
-  console.log(body);
 
   expect(Array.isArray(body)).toBe(true);
 
@@ -135,8 +120,6 @@ test("TC-11 User With Invalid Status", async ({ request }) => {
 
   const body = await response.json();
 
-  console.log(body);
-
   expect(Array.isArray(body)).toBe(true);
 
   expect(body).toHaveLength(1);
@@ -156,8 +139,6 @@ test("TC-12 User With Empty Body", async ({ request }) => {
   expect(response.status()).toBe(422);
 
   const body = await response.json();
-
-  console.log(body);
 
   expect(Array.isArray(body)).toBe(true);
 
@@ -187,8 +168,6 @@ test("TC-13 User With Without Token", async ({ request }) => {
 
   const body = await response.json();
 
-  console.log(body);
-
   expect(Array.isArray(body)).toBe(false);
 
   expect(body.message).toBe(
@@ -209,8 +188,6 @@ test("TC-14 User With Invalid Token", async ({ request }) => {
 
   const body = await response.json();
 
-  console.log(body);
-
   expect(Array.isArray(body)).toBe(false);
 
   expect(body.message).toBe("Authentication failed. Use Bearer token scheme.");
@@ -229,8 +206,6 @@ test("TC-15 User With Blocked Token", async ({ request }) => {
   expect(response.status()).toBe(403);
 
   const body = await response.json();
-
-  console.log(body);
 
   expect(Array.isArray(body)).toBe(false);
 
